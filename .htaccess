@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /share/
+RewriteRule ^www.github.com$ realphpsharepage.php
+RewriteRule ^read-page-19-152-1.html$ realphphtmlpage.php
+RewriteRule ^page-index.html$ realjumppage.php
