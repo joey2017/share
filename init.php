@@ -147,6 +147,7 @@ $statistics = <<<EOT
 <script type="text/javascript" src="https://s23.cnzz.com/z_stat.php?id=1276340612&web_id=1276340612"></script>
 EOT;
 
+//==========================================================================================================//
 /**
  * @param $mysql  mysql资源链接
  * @param $sql    sql语句
@@ -172,4 +173,98 @@ function getDataFromMysql($mysql,$sql){
 
     return $data;
 }
+
+/** 删除数组中指定的值
+ * @param $arr      目标一维数组
+ * @param $value    需要删除的数组值
+ * return array     删除特定值后的数组
+ */
+function delByValue($arr, $value){
+    if(!is_array($arr)){
+        return $arr;
+    }
+    foreach($arr as $k=>$v){
+        if($v == $value){
+            unset($arr[$k]);
+        }
+    }
+    return $arr;
+}
+
+
+/** 微信域名接口检测
+ * @param $apiToken  您的 API Token，在用户中心可查询到
+ * @param $reqUrl    需要检测的地址或域名
+ * return code	返回码	9900:正常 | 9904:被封 | 9999:系统错误 | 139:token错误或无权限 | 402:超过调用频率  msg	错误消息	返回的错误消息
+ */
+function domainCheck($apiToken, $reqUrl)
+{
+    $url = sprintf("http://wz.tkc8.com/manage/api/check?token=%s&url=%s", $apiToken, $reqUrl);
+    $ch  = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+    $responseBody = curl_exec($ch);
+    $responseArr  = json_decode($responseBody, true);
+    if (json_last_error() != JSON_ERROR_NONE) {
+        // echo "JSON 解析接口结果出错\n";
+        return 'JSON 解析出错';
+    }
+    if (isset($responseArr['code'])) {
+        // 接口正确返回
+        if ($responseArr['code'] == '9900') {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        // printf("接口异常：%s\n", var_export($responseArr, true));
+        return 'api error';
+    }
+}
+
+/**微信浏览器检测
+ * @version  1.0
+ * @param
+ * @return array | boolean
+ */
+function isWechat()
+{
+    if (array_key_exists('HTTP_USER_AGENT', $_SERVER) && strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false && false === stripos($_SERVER['HTTP_USER_AGENT'], 'wechatdevtools')) {
+        # code...
+        return true;
+    }
+    return false;
+}
+
+/**移动端检测
+ * @version  1.0
+ * @param
+ * @return array | boolean
+ */
+function isMobile()
+{
+    $useragent               = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+    $useragent_commentsblock = preg_match('|\(.*?\)|', $useragent, $matches) > 0 ? $matches[0] : '';
+    function CheckSubstrs($substrs, $text)
+    {
+        foreach ($substrs as $substr)
+            if (false !== strpos($text, $substr)) {
+                return true;
+            }
+        return false;
+    }
+
+    $mobile_os_list    = array('Google Wireless Transcoder', 'Windows CE', 'WindowsCE', 'Symbian', 'Android', 'armv6l', 'armv5', 'Mobile', 'CentOS', 'mowser', 'AvantGo', 'Opera Mobi', 'J2ME/MIDP', 'Smartphone', 'Go.Web', 'Palm', 'iPAQ');
+    $mobile_token_list = array('Profile/MIDP', 'Configuration/CLDC-', '160×160', '176×220', '240×240', '240×320', '320×240', 'UP.Browser', 'UP.Link', 'SymbianOS', 'PalmOS', 'PocketPC', 'SonyEricsson', 'Nokia', 'BlackBerry', 'Vodafone', 'BenQ', 'Novarra-Vision', 'Iris', 'NetFront', 'HTC_', 'Xda_', 'SAMSUNG-SGH', 'Wapaka', 'DoCoMo', 'iPhone', 'iPod');
+
+    $found_mobile = CheckSubstrs($mobile_os_list, $useragent_commentsblock) ||
+        CheckSubstrs($mobile_token_list, $useragent);
+
+    if ($found_mobile) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 ?>

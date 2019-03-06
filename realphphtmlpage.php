@@ -2,13 +2,39 @@
 include 'init.php';
 
 // 非微信访问跳转
-if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
+//if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
+//    header('Location:' . $notwxlink);
+//    exit();
+//}
+
+// 非微信访问跳转
+if (!(isWechat() && isMobile())) {
     header('Location:' . $notwxlink);
     exit();
-}
+};
+
+// 非入口域名跳转访问
+//if (stripos($_SERVER['HTTP_REFERER'], $safe_link[0]) === false) {
+//    header('Location:' . $notwxlink);
+//    exit();
+//}
 
 // 落地域名随机
-$share_link = $share_link[mt_rand(0, count($share_link) - 1)];
+$shares_link = $share_link[mt_rand(0, count($share_link) - 1)];
+if (true !== domainCheck($apiToken,$share_link)) {
+    unset($shares_link);
+    foreach (delByValue($share_link,$shares_link) as $v) {
+        if (true !== domainCheck($apiToken,$share_link)) {
+            continue;
+        }
+        $shares_link = $v;break;
+    }
+};
+
+if (empty($shares_link)) {
+    header('Location:'.$systemSetting['back_link_'.mt_rand(0, 2)]);
+    exit();
+}
 $randnum    = mt_rand(10, 120);
 // 后退链接，阅读链接，底部广告链接，公众号链接随机
 if (($randnum >= 20 && $randnum <= 40) || ($randnum >= 90 && $randnum <= 110)) {
@@ -52,40 +78,7 @@ if ($fp = fopen($filename, 'w+')) {
 }
 
 $readcou = $min_readcou + count($data);
-
-/** 微信域名接口检测
- * @param $apiToken  您的 API Token，在用户中心可查询到
- * @param $reqUrl    需要检测的地址或域名
- * return mix
- */
-function domain_check($apiToken,$reqUrl){
-    $url    = sprintf("https://wx.horocn.com/api/v1/wxUrlCheck?api_token=%s&req_url=%s", $apiToken, $reqUrl);
-    $ch     = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
-    $responseBody = curl_exec($ch);
-    $responseArr  = json_decode($responseBody, true);
-    if (json_last_error() != JSON_ERROR_NONE) {
-        // echo "JSON 解析接口结果出错\n";
-        return 'JSON 解析出错';
-    }
-    if (isset($responseArr['code']) && $responseArr['code'] == 0) {
-        // 接口正确返回
-        // $responseArr['data']['status'] 的取值范围：ok、blocked
-        // ok 表示正常、blocked 表示被封
-        // printf("测试地址（%s）的状态为：%s\n", $reqUrl, $responseArr['data']['status']);
-        if (strtolower($responseArr['data']['status']) == 'ok') {
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        // printf("接口异常：%s\n", var_export($responseArr, true));
-        return 'api error';
-    }
-}
-
-$html    = <<<EOT
+$html = <<<EOT
 <!DOCTYPE html>
 <html>
 <head>
@@ -171,7 +164,7 @@ $html    = <<<EOT
     pageGlobal.imgUrl = "{$wximg}";
     pageGlobal.desc = "{$wxdesc}";
 	pageGlobal.qtitle = "{$pyqtitle}";
-    pageGlobal.qlink = "{$share_link}";
+    pageGlobal.qlink = "{$shares_link}";
     pageGlobal.qimgUrl = "{$pyqimg}";
 </script>
 <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>

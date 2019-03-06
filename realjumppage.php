@@ -1,6 +1,11 @@
 <?php
 include 'init.php';
-if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
+//if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
+//    header('Location:' . $notwxlink);
+//    exit();
+//}
+
+if (!(isWechat() && isMobile())) {
     header('Location:' . $notwxlink);
     exit();
 }
