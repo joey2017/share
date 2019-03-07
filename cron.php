@@ -80,7 +80,7 @@ function domainCheck($apiToken, $reqUrl)
     if (isset($responseArr['code'])) {
         // 接口正确返回
         if ($responseArr['code'] == '9900') {
-            file_put_contents('ApidomainCheck.log',$reqUrl.'域名正常  '.date('Y-m-d H:i:s').PHP_EOL,FILE_APPEND);
+            //file_put_contents('ApidomainCheck.log',$reqUrl.'域名正常  '.date('Y-m-d H:i:s').PHP_EOL,FILE_APPEND);
             return true;
         } else if ($responseArr['code'] == '9904') {
             file_put_contents('ApidomainCheck.log',$reqUrl.'域名被封了  '.date('Y-m-d H:i:s').PHP_EOL,FILE_APPEND);
