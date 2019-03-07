@@ -25,10 +25,10 @@
 //print_r(json_decode($redis->get('aaa'),true));
 
 // php7
-try{
-    $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=admin_v3;','root','root');
-    $mysql->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-}catch(\Exception $e){
+try {
+    $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=wx;', 'root', 'xiaomi_183..');
+    $mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (\Exception $e) {
     //throw $e;
 }
 
@@ -36,10 +36,10 @@ $sql = "SELECT * FROM system_config";
 
 $systemSetting = [];
 
-$tempdata = getDataFromMysql($mysql,$sql);
+$tempdata = getDataFromMysql($mysql, $sql);
 
 if (!empty($tempdata)) {
-    foreach($tempdata as $v) {
+    foreach ($tempdata as $v) {
         $systemSetting[$v['name']] = $v['value'];
     }
 } else {
@@ -52,24 +52,51 @@ $sql = "select * from system_app where status = 1 and is_deleted = 0 order by id
 
 $appsArray = [];
 
-$tempdata = getDataFromMysql($mysql,$sql);
+$tempdata = getDataFromMysql($mysql, $sql);
 
 foreach ($tempdata as $v) {
     $appsArray = $v;
 }
 
 //域名列表 （可能为空）
-$sql = "select * from system_domain where status = 1 and is_deleted = 0 order by id desc limit 5";
+$sql = "select * from system_domain where status = 1 and is_deleted = 0 order by sort asc,id desc limit 5";
 
-$domainList = getDataFromMysql($mysql,$sql);
+$domainList = getDataFromMysql($mysql, $sql);
 
 if (empty($domainList)) {
-    return ;
+    return;
+}
+
+
+//视频列表
+$sql = "select * from system_video where status = 1 and is_deleted = 0 order by sort asc,id desc limit 1";
+
+$videoList = [];
+
+$tempdata = getDataFromMysql($mysql, $sql);
+
+foreach ($tempdata as $v) {
+    $videoList = $v;
+}
+
+//分享设置
+$sql = "select * from system_share where status = 1 and is_deleted = 0 order by type asc,sort asc,id desc";
+
+$shareList = getDataFromMysql($mysql, $sql);
+
+$friendTime  = 0;
+$circlesTime = 0;
+foreach ($shareList as $item) {
+    if ($item['type'] == 1) {
+        $friendTime += 1;
+    } else {
+        $circlesTime += 1;
+    }
 }
 
 //系统配置数据
-$appid     = isset($systemSetting['appid']) ? $systemSetting['appid'] : '';
-$appsecret = isset($systemSetting['appsecret']) ? $systemSetting['appsecret'] : '';
+//$appid     = isset($systemSetting['appid']) ? $systemSetting['appid'] : '';
+//$appsecret = isset($systemSetting['appsecret']) ? $systemSetting['appsecret'] : '';
 
 //使用公众号列表的数据
 $appid     = isset($appsArray['appid']) ? $appsArray['appid'] : '';
@@ -93,14 +120,14 @@ foreach ($domainList as $do) {
 }
 
 //阅读量范围
-$min_readcou = $systemSetting['read_min'];
-$max_readcou = $systemSetting['read_max'];
+$min_readcou = $videoList['read_min'];
+$max_readcou = $videoList['read_max'];
 
 //点赞数
-$stars = $systemSetting['stars'];
+$stars = $videoList['stars'];
 
 //播放暂停时间
-$video_play_seconds = $systemSetting['video_play_seconds'];
+$video_play_seconds = $videoList['pause'];
 
 //后退链接
 $back_link = array(
@@ -126,6 +153,11 @@ $footer_link = array(
     $systemSetting['ad_link_2'],
     $systemSetting['ad_link_3'],
 );
+$footer_img = array(
+    $systemSetting['ad_link_img_1'],
+    $systemSetting['ad_link_img_2'],
+    $systemSetting['ad_link_img_3'],
+);
 //好友分享
 $wxtitle = $systemSetting['friend_title'];
 $wxdesc  = $systemSetting['friend_desc'];
@@ -137,10 +169,16 @@ $pyqdesc  = $systemSetting['circles_desc'];
 $pyqimg   = $systemSetting['circles_image'];
 
 //腾讯视频VID
-$vid = $systemSetting['video_link'];
+$vid = $videoList['vid'];
 
 //视频标题
-$videoTitle = $systemSetting['video_title'];
+$videoTitle = $videoList['title'];
+
+//微信域名检测接口token
+$apiToken = '';
+
+//日期
+$date = date('Y-m-d');
 
 //统计代码
 $statistics = <<<EOT
@@ -153,7 +191,8 @@ EOT;
  * @param $sql    sql语句
  * return mix
  */
-function getDataFromMysql($mysql,$sql){
+function getDataFromMysql($mysql, $sql)
+{
     if (empty($mysql) || empty($sql)) {
         return false;
     }
@@ -167,7 +206,7 @@ function getDataFromMysql($mysql,$sql){
     $data = [];
 
     //遍历循环数据
-    while ($row =$results->fetch(PDO::FETCH_ASSOC)) { //从结果集中取出一组作为数组返回，该数组为一个关联数组
+    while ($row = $results->fetch(PDO::FETCH_ASSOC)) { //从结果集中取出一组作为数组返回，该数组为一个关联数组
         $data[] = $row;
     }
 
@@ -179,12 +218,13 @@ function getDataFromMysql($mysql,$sql){
  * @param $value    需要删除的数组值
  * return array     删除特定值后的数组
  */
-function delByValue($arr, $value){
-    if(!is_array($arr)){
+function delByValue($arr, $value)
+{
+    if (!is_array($arr)) {
         return $arr;
     }
-    foreach($arr as $k=>$v){
-        if($v == $value){
+    foreach ($arr as $k => $v) {
+        if ($v == $value) {
             unset($arr[$k]);
         }
     }
@@ -195,7 +235,7 @@ function delByValue($arr, $value){
 /** 微信域名接口检测
  * @param $apiToken  您的 API Token，在用户中心可查询到
  * @param $reqUrl    需要检测的地址或域名
- * return code	返回码	9900:正常 | 9904:被封 | 9999:系统错误 | 139:token错误或无权限 | 402:超过调用频率  msg	错误消息	返回的错误消息
+ * return code    返回码    9900:正常 | 9904:被封 | 9999:系统错误 | 139:token错误或无权限 | 402:超过调用频率  msg    错误消息    返回的错误消息
  */
 function domainCheck($apiToken, $reqUrl)
 {

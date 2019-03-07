@@ -8,10 +8,10 @@ include 'init.php';
 //}
 
 // 非微信访问跳转
-if (!(isWechat() && isMobile())) {
-    header('Location:' . $notwxlink);
-    exit();
-};
+//if (!(isWechat() && isMobile())) {
+//    header('Location:' . $notwxlink);
+//    exit();
+//};
 
 // 非入口域名跳转访问
 //if (stripos($_SERVER['HTTP_REFERER'], $safe_link[0]) === false) {
@@ -21,32 +21,34 @@ if (!(isWechat() && isMobile())) {
 
 // 落地域名随机
 $shares_link = $share_link[mt_rand(0, count($share_link) - 1)];
-if (true !== domainCheck($apiToken,$share_link)) {
-    unset($shares_link);
-    foreach (delByValue($share_link,$shares_link) as $v) {
-        if (true !== domainCheck($apiToken,$share_link)) {
-            continue;
-        }
-        $shares_link = $v;break;
-    }
-};
+//if (true !== domainCheck($apiToken,$share_link)) {
+//    unset($shares_link);
+//    foreach (delByValue($share_link,$shares_link) as $v) {
+//        if (true !== domainCheck($apiToken,$share_link)) {
+//            continue;
+//        }
+//        $shares_link = $v;break;
+//    }
+//};
 
 if (empty($shares_link)) {
-    header('Location:'.$systemSetting['back_link_'.mt_rand(0, 2)]);
+    header('Location:' . $systemSetting['back_link_' . mt_rand(0, 2)]);
     exit();
 }
-$randnum    = mt_rand(10, 120);
+$randnum = mt_rand(10, 120);
 // 后退链接，阅读链接，底部广告链接，公众号链接随机
 if (($randnum >= 20 && $randnum <= 40) || ($randnum >= 90 && $randnum <= 110)) {
     $back_link   = $back_link[mt_rand(0, count($back_link) - 1)];
     $name_link   = $name_link[mt_rand(0, count($name_link) - 1)];
     $read_link   = $read_link[mt_rand(0, count($read_link) - 1)];
     $footer_link = $footer_link[mt_rand(0, count($footer_link) - 1)];
+    $footer_img  = $footer_img[mt_rand(0, count($footer_img) - 1)];
 } else {
     $back_link   = current($back_link);
     $name_link   = current($name_link);
     $read_link   = current($read_link);
     $footer_link = current($footer_link);
+    $footer_img  = current($footer_img);
 }
 
 // 访问数量统计
@@ -78,7 +80,7 @@ if ($fp = fopen($filename, 'w+')) {
 }
 
 $readcou = $min_readcou + count($data);
-$html = <<<EOT
+$html    = <<<EOT
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,9 +112,9 @@ $html = <<<EOT
             <div class="rich_media_inner">
                 <div id="page-content">
                     <div id="img-content" class="rich_media_area_primary" style="padding-top:5px;">
-                        <h2 class="rich_media_title" id="activity-name"> 豪车车主打砸农村小伙车上物品，小伙一个电话叫来... </h2>
+                        <h2 class="rich_media_title" id="activity-name"> {$videoList['title']}</h2>
                         <div class="rich_media_meta_list" style="margin-bottom:0;">
-                            <em id="post-date" class="rich_media_meta rich_media_meta_text">2017-10-09</em>
+                            <em id="post-date" class="rich_media_meta rich_media_meta_text">{$date}</em>
                             <a class="rich_media_meta rich_media_meta_link rich_media_meta_nickname" style="color:#607fa6;" href="{$name_link}" id="post-user"> 热门劲爆视频</a>
                         </div>
                         <div class="rich_media_content" id="js_content" style="height:200px;">
@@ -140,7 +142,7 @@ $html = <<<EOT
             <div class="js_ad_link extra_link" style="padding:0 15px;">
                 <p>
                     <a href="javascript:;" onclick="jump('{$footer_link}');">
-                        <img src="assets/e645b06bly1fjhr0qgmw4g20go02oaaj.gif" alt="">
+                        <img src="{$footer_img}" alt="">
                     </a>
                 </p>
             </div>

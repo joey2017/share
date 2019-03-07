@@ -12,7 +12,7 @@ $(function() {
         }, 5000);
     }, 8000);
 	
-	vuxalert('网速不好，请分享到 <span style="font-size: 30px;color: #f5294c">3</span> 个不同的微信群才可以继续观看！');
+	vuxalert('{$shareList[0]["content"]}');
 	
     var globalConfig = {};
     globalConfig.jssdkUrl = "jssdkphpversion/getversion.php";
@@ -84,18 +84,18 @@ function jump(url) {
 function share_tip(share_app_times, share_timeline_times) {
     if (share_app_times < 3) {
         if (share_app_times == 2){
-            vuxalert('分享<span style="font-size: 30px;color: #f5294c">分享成功</span>,请继续分享到不同的群！')
+            vuxalert('{$shareList[1]["content"]}')
         }else{
-            vuxalert('分享成功,请继续分享到<span style="font-size: 30px;color: #f5294c">' + (3 - share_app_times) + '</span>个不同的群即可观看！');
+            vuxalert('{$shareList[2]["content"]}');
         }
     } else {
         wx.hideOptionMenu();
         wx.showMenuItems({menuList:['menuItem:share:timeline']});
         if (share_timeline_times < 1) {
-            vuxalert('分享成功，剩下最后一步啦！<br />请分享到<span style="font-size: 30px;color: #f5294c">朋友圈</span>即可观看!')
+            vuxalert('{$shareList[3]["content"]}')
         } else {
             if(share_timeline_times == 1){
-                vuxalert('分享朋友圈<span style="font-size: 30px;color: #f5294c">失败</span>,请继续分享朋友圈！')
+                vuxalert('{$shareList[4]["content"]}')
             }else{
                 jump(pageGlobal.dockUrl);
             }
