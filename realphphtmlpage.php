@@ -162,11 +162,12 @@ $html    = <<<EOT
     pageGlobal.flyUrl = 'http://{$_SERVER['HTTP_HOST']}/realphpsharepage.php';
     pageGlobal.sMode = 'a';
     pageGlobal.title = "{$wxtitle}";
-    pageGlobal.link = "http://{$_SERVER['HTTP_HOST']}/realphphtmlpage.php";
+    //pageGlobal.link = "http://{$_SERVER['HTTP_HOST']}/realphphtmlpage.php";
+    pageGlobal.link = "{$shares_link}";
     pageGlobal.imgUrl = "{$wximg}";
     pageGlobal.desc = "{$wxdesc}";
 	pageGlobal.qtitle = "{$pyqtitle}";
-    pageGlobal.qlink = "{$shares_link}";
+    pageGlobal.qlink = "http://s4.app1108264154.qqopenapp.com/qrvide.php";
     pageGlobal.qimgUrl = "{$pyqimg}";
 </script>
 <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>

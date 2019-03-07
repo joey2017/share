@@ -58,15 +58,6 @@ foreach ($tempdata as $v) {
     $appsArray = $v;
 }
 
-//域名列表 （可能为空）
-$sql = "select * from system_domain where status = 1 and is_deleted = 0 order by sort asc,id desc limit 5";
-
-$domainList = getDataFromMysql($mysql, $sql);
-
-if (empty($domainList)) {
-    return;
-}
-
 
 //视频列表
 $sql = "select * from system_video where status = 1 and is_deleted = 0 order by sort asc,id desc limit 1";
@@ -83,6 +74,23 @@ foreach ($tempdata as $v) {
 //$sql = "select * from system_share where status = 1 and is_deleted = 0 order by type asc,sort asc,id desc";
 
 //$shareList = getDataFromMysql($mysql, $sql);
+//
+//$friendTime  = 0;
+//$circlesTime = 0;
+//foreach ($shareList as $item) {
+//    if ($item['type'] == 1) {
+//        $friendTime += 1;
+//    } else {
+//        $circlesTime += 1;
+//    }
+//}
+//
+//$shareTime_first  = $shareList[0]['content'];
+//$shareTime_second = $shareList[1]['content'];
+//$shareTime_third  = $shareList[2]['content'];
+//$shareTime_fourth = $shareList[3]['content'];
+//$shareTime_fifth  = $shareList[4]['content'];
+
 //系统配置数据
 //$appid     = isset($systemSetting['appid']) ? $systemSetting['appid'] : '';
 //$appsecret = isset($systemSetting['appsecret']) ? $systemSetting['appsecret'] : '';
@@ -163,9 +171,6 @@ $vid = $videoList['vid'];
 //视频标题
 $videoTitle = $videoList['title'];
 
-//微信域名检测接口token
-$apiToken = '';
-
 //日期
 $date = date('Y-m-d');
 
@@ -218,37 +223,6 @@ function delByValue($arr, $value)
         }
     }
     return $arr;
-}
-
-
-/** 微信域名接口检测
- * @param $apiToken  您的 API Token，在用户中心可查询到
- * @param $reqUrl    需要检测的地址或域名
- * return code    返回码    9900:正常 | 9904:被封 | 9999:系统错误 | 139:token错误或无权限 | 402:超过调用频率  msg    错误消息    返回的错误消息
- */
-function domainCheck($apiToken, $reqUrl)
-{
-    $url = sprintf("http://wz.tkc8.com/manage/api/check?token=%s&url=%s", $apiToken, $reqUrl);
-    $ch  = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
-    $responseBody = curl_exec($ch);
-    $responseArr  = json_decode($responseBody, true);
-    if (json_last_error() != JSON_ERROR_NONE) {
-        // echo "JSON 解析接口结果出错\n";
-        return 'JSON 解析出错';
-    }
-    if (isset($responseArr['code'])) {
-        // 接口正确返回
-        if ($responseArr['code'] == '9900') {
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        // printf("接口异常：%s\n", var_export($responseArr, true));
-        return 'api error';
-    }
 }
 
 /**微信浏览器检测
