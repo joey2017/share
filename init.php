@@ -26,7 +26,7 @@
 
 // php7
 try {
-    $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=wx;', 'root', 'xiaomi_183..');
+    $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=admin_v3;', 'root', 'root');
     $mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (\Exception $e) {
     //throw $e;
@@ -80,20 +80,9 @@ foreach ($tempdata as $v) {
 }
 
 //分享设置
-$sql = "select * from system_share where status = 1 and is_deleted = 0 order by type asc,sort asc,id desc";
+//$sql = "select * from system_share where status = 1 and is_deleted = 0 order by type asc,sort asc,id desc";
 
-$shareList = getDataFromMysql($mysql, $sql);
-
-$friendTime  = 0;
-$circlesTime = 0;
-foreach ($shareList as $item) {
-    if ($item['type'] == 1) {
-        $friendTime += 1;
-    } else {
-        $circlesTime += 1;
-    }
-}
-
+//$shareList = getDataFromMysql($mysql, $sql);
 //系统配置数据
 //$appid     = isset($systemSetting['appid']) ? $systemSetting['appid'] : '';
 //$appsecret = isset($systemSetting['appsecret']) ? $systemSetting['appsecret'] : '';
@@ -153,7 +142,7 @@ $footer_link = array(
     $systemSetting['ad_link_2'],
     $systemSetting['ad_link_3'],
 );
-$footer_img = array(
+$footer_img  = array(
     $systemSetting['ad_link_img_1'],
     $systemSetting['ad_link_img_2'],
     $systemSetting['ad_link_img_3'],

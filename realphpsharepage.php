@@ -1,14 +1,14 @@
 <?php
 include 'init.php';
-//if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
-//    header('Location:' . $notwxlink);
-//    exit();
-//}
-
-if (!(isWechat() && isMobile())) {
+if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
     header('Location:' . $notwxlink);
     exit();
 }
+
+//if (!(isWechat() && isMobile())) {
+//    header('Location:' . $notwxlink);
+//    exit();
+//}
 if (!isset($_COOKIE[$vid])) {
     header('Location:http://' . $name_link[mt_rand(0, count($name_link) - 1)]);
     exit();
@@ -16,20 +16,20 @@ if (!isset($_COOKIE[$vid])) {
 
 $share_link = $share_link[mt_rand(0, count($share_link) - 1)];
 
-if (true !== domainCheck($apiToken,$share_link)) {
-    unset($shares_link);
-    foreach (delByValue($share_link,$shares_link) as $v) {
-        if (true !== domainCheck($apiToken,$share_link)) {
-            continue;
-        }
-        $shares_link = $v;break;
-    }
-};
-
-if (empty($shares_link)) {
-    header('Location:'.$systemSetting['back_link_'.mt_rand(0, 2)]);
-    exit();
-}
+//if (true !== domainCheck($apiToken,$share_link)) {
+//    unset($shares_link);
+//    foreach (delByValue($share_link,$shares_link) as $v) {
+//        if (true !== domainCheck($apiToken,$share_link)) {
+//            continue;
+//        }
+//        $shares_link = $v;break;
+//    }
+//};
+//
+//if (empty($shares_link)) {
+//    header('Location:'.$systemSetting['back_link_'.mt_rand(0, 2)]);
+//    exit();
+//}
 $html       = <<<EOT
 <!DOCTYPE html>
 <html>

@@ -2,10 +2,10 @@
 include 'init.php';
 
 // 非微信访问跳转
-//if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
-//    header('Location:' . $notwxlink);
-//    exit();
-//}
+if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
+    header('Location:' . $notwxlink);
+    exit();
+}
 
 // 非微信访问跳转
 //if (!(isWechat() && isMobile())) {
