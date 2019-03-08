@@ -70,6 +70,15 @@ foreach ($tempdata as $v) {
     $videoList = $v;
 }
 
+//域名列表 （可能为空）
+$sql = "select * from system_domain where status = 1 and is_deleted = 0 order by sort asc,id desc";
+
+$domainList = getDataFromMysql($mysql, $sql);
+
+if (empty($domainList)) {
+    exit();
+}
+
 //分享设置
 //$sql = "select * from system_share where status = 1 and is_deleted = 0 order by type asc,sort asc,id desc";
 
