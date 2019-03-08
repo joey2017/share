@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="772191ee-992d-4ac9-9fa1-3ee4fd3866bc" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/cron.php" afterPath="$PROJECT_DIR$/cron.php" />
-      <change beforePath="$PROJECT_DIR$/domainCheck.php" afterPath="" />
       <change beforePath="$PROJECT_DIR$/init.php" afterPath="$PROJECT_DIR$/init.php" />
-      <change beforePath="$PROJECT_DIR$/jssdkphpversion/aa.txt" afterPath="$PROJECT_DIR$/jssdkphpversion/aa.txt" />
-      <change beforePath="$PROJECT_DIR$/jssdkphpversion/access_token.php" afterPath="$PROJECT_DIR$/jssdkphpversion/access_token.php" />
-      <change beforePath="$PROJECT_DIR$/jssdkphpversion/jsapi_ticket.php" afterPath="$PROJECT_DIR$/jssdkphpversion/jsapi_ticket.php" />
-      <change beforePath="$PROJECT_DIR$/realphphtmlpage.php" afterPath="$PROJECT_DIR$/realphphtmlpage.php" />
-      <change beforePath="$PROJECT_DIR$/realphpsharepage.php" afterPath="$PROJECT_DIR$/realphpsharepage.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,8 +17,8 @@
       <file leaf-file-name="realphphtmlpage.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/realphphtmlpage.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="158" column="59" lean-forward="false" selection-start-line="158" selection-start-column="59" selection-end-line="158" selection-end-column="59" />
+            <state relative-caret-position="336">
+              <caret line="160" column="11" lean-forward="true" selection-start-line="160" selection-start-column="11" selection-end-line="160" selection-end-column="11" />
               <folding>
                 <marker date="1552009994934" expanded="true" signature="2498:7790" ph="..." />
                 <marker date="1552009994934" expanded="true" signature="2505:3775" ph="..." />
@@ -68,14 +61,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cron.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="cron.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cron.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="1722">
+              <caret line="80" column="38" lean-forward="true" selection-start-line="80" selection-start-column="38" selection-end-line="80" selection-end-column="38" />
               <folding>
-                <marker date="1552009398111" expanded="true" signature="289:378" ph="select * fro... system_domain" />
-                <marker date="1552009398111" expanded="true" signature="600:656" ph="UPDATE `system_domain`... " />
+                <marker date="1552023803826" expanded="true" signature="289:378" ph="select * fro... system_domain" />
+                <marker date="1552023803826" expanded="true" signature="600:656" ph="UPDATE `system_domain`... " />
               </folding>
             </state>
           </provider>
@@ -84,16 +77,15 @@
       <file leaf-file-name="init.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/init.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="735">
-              <caret line="80" column="0" lean-forward="true" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+            <state relative-caret-position="1655">
+              <caret line="209" column="0" lean-forward="true" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
               <folding>
-                <element signature="e#7#65#0#PHP" expanded="true" />
-                <marker date="1552010125149" expanded="true" signature="1144:1171" ph="SELECT * FRO... system_config" />
-                <marker date="1552010125149" expanded="true" signature="1398:1483" ph="select * fro... system_app" />
-                <marker date="1552010125149" expanded="true" signature="1618:1713" ph="select * fro... system_video" />
-                <marker date="1552010125149" expanded="true" signature="1618:1714" ph="select * fro... system_video" />
-                <marker date="1552010125149" expanded="true" signature="1855:1944" ph="select * fro... system_domain" />
-                <marker date="1552010125149" expanded="true" signature="2053:2150" ph="select * fro... system_share" />
+                <marker date="1552017521750" expanded="true" signature="816:843" ph="SELECT * FRO... system_config" />
+                <marker date="1552017521750" expanded="true" signature="1070:1155" ph="select * fro... system_app" />
+                <marker date="1552017521750" expanded="true" signature="1290:1385" ph="select * fro... system_video" />
+                <marker date="1552017521750" expanded="true" signature="1290:1386" ph="select * fro... system_video" />
+                <marker date="1552017521750" expanded="true" signature="1527:1616" ph="select * fro... system_domain" />
+                <marker date="1552017521750" expanded="true" signature="1725:1822" ph="select * fro... system_share" />
               </folding>
             </state>
           </provider>
@@ -109,11 +101,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="realphpsharepage.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="realphpsharepage.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/realphpsharepage.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="47">
-              <caret line="75" column="24" lean-forward="true" selection-start-line="75" selection-start-column="24" selection-end-line="75" selection-end-column="24" />
+            <state relative-caret-position="194">
+              <caret line="82" column="72" lean-forward="false" selection-start-line="82" selection-start-column="24" selection-end-line="82" selection-end-column="72" />
               <folding>
                 <marker date="1552010571798" expanded="true" signature="883:3627" ph="..." />
                 <marker date="1552010571798" expanded="true" signature="890:1821" ph="..." />
@@ -143,8 +135,8 @@
       <file leaf-file-name="continue_c.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/continue_c.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="43" column="41" lean-forward="false" selection-start-line="43" selection-start-column="37" selection-end-line="43" selection-end-column="41" />
+            <state relative-caret-position="332">
+              <caret line="89" column="9" lean-forward="true" selection-start-line="89" selection-start-column="9" selection-end-line="89" selection-end-column="9" />
               <folding>
                 <marker date="1551941994956" expanded="true" signature="455:485" ph="..." />
                 <marker date="1551941994956" expanded="true" signature="2649:2679" ph="..." />
@@ -242,10 +234,10 @@
         <option value="$PROJECT_DIR$/domainCheck.php" />
         <option value="$PROJECT_DIR$/crontab.php" />
         <option value="$USER_HOME$/Desktop/cron.php" />
-        <option value="$PROJECT_DIR$/cron.php" />
         <option value="$PROJECT_DIR$/realphphtmlpage.php" />
-        <option value="$PROJECT_DIR$/init.php" />
         <option value="$PROJECT_DIR$/realphpsharepage.php" />
+        <option value="$PROJECT_DIR$/init.php" />
+        <option value="$PROJECT_DIR$/cron.php" />
       </list>
     </option>
   </component>
@@ -257,8 +249,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="344" />
-    <option name="y" value="68" />
+    <option name="x" value="136" />
+    <option name="y" value="46" />
     <option name="width" value="1629" />
     <option name="height" value="963" />
   </component>
@@ -346,10 +338,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68585000" />
+    <option name="totallyTimeSpent" value="70970000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="344" y="68" width="1629" height="963" extended-state="1" />
+    <frame x="136" y="46" width="1629" height="963" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -487,47 +479,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/continue_c.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="43" column="41" lean-forward="false" selection-start-line="43" selection-start-column="37" selection-end-line="43" selection-end-column="41" />
-          <folding>
-            <marker date="1551941994956" expanded="true" signature="455:485" ph="..." />
-            <marker date="1551941994956" expanded="true" signature="2649:2679" ph="..." />
-            <marker date="1551941994956" expanded="true" signature="2768:2798" ph="..." />
-            <marker date="1551941994956" expanded="true" signature="3066:3096" ph="..." />
-            <marker date="1551941994956" expanded="true" signature="3220:3250" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cron.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding>
-            <marker date="1552009398111" expanded="true" signature="289:378" ph="select * fro... system_domain" />
-            <marker date="1552009398111" expanded="true" signature="600:656" ph="UPDATE `system_domain`... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/init.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="80" column="0" lean-forward="true" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding>
-            <element signature="e#7#65#0#PHP" expanded="true" />
-            <marker date="1552010125149" expanded="true" signature="1144:1171" ph="SELECT * FRO... system_config" />
-            <marker date="1552010125149" expanded="true" signature="1398:1483" ph="select * fro... system_app" />
-            <marker date="1552010125149" expanded="true" signature="1618:1713" ph="select * fro... system_video" />
-            <marker date="1552010125149" expanded="true" signature="1618:1714" ph="select * fro... system_video" />
-            <marker date="1552010125149" expanded="true" signature="1855:1944" ph="select * fro... system_domain" />
-            <marker date="1552010125149" expanded="true" signature="2053:2150" ph="select * fro... system_share" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/domainCheck.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="546">
@@ -544,10 +495,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/init.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1655">
+          <caret line="209" column="0" lean-forward="true" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
+          <folding>
+            <marker date="1552017521750" expanded="true" signature="816:843" ph="SELECT * FRO... system_config" />
+            <marker date="1552017521750" expanded="true" signature="1070:1155" ph="select * fro... system_app" />
+            <marker date="1552017521750" expanded="true" signature="1290:1385" ph="select * fro... system_video" />
+            <marker date="1552017521750" expanded="true" signature="1290:1386" ph="select * fro... system_video" />
+            <marker date="1552017521750" expanded="true" signature="1527:1616" ph="select * fro... system_domain" />
+            <marker date="1552017521750" expanded="true" signature="1725:1822" ph="select * fro... system_share" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/continue_c.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="89" column="9" lean-forward="true" selection-start-line="89" selection-start-column="9" selection-end-line="89" selection-end-column="9" />
+          <folding>
+            <marker date="1551941994956" expanded="true" signature="455:485" ph="..." />
+            <marker date="1551941994956" expanded="true" signature="2649:2679" ph="..." />
+            <marker date="1551941994956" expanded="true" signature="2768:2798" ph="..." />
+            <marker date="1551941994956" expanded="true" signature="3066:3096" ph="..." />
+            <marker date="1551941994956" expanded="true" signature="3220:3250" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/realphphtmlpage.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="158" column="59" lean-forward="false" selection-start-line="158" selection-start-column="59" selection-end-line="158" selection-end-column="59" />
+        <state relative-caret-position="336">
+          <caret line="160" column="11" lean-forward="true" selection-start-line="160" selection-start-column="11" selection-end-line="160" selection-end-column="11" />
           <folding>
             <marker date="1552009994934" expanded="true" signature="2498:7790" ph="..." />
             <marker date="1552009994934" expanded="true" signature="2505:3775" ph="..." />
@@ -591,8 +571,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/realphpsharepage.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="47">
-          <caret line="75" column="24" lean-forward="true" selection-start-line="75" selection-start-column="24" selection-end-line="75" selection-end-column="24" />
+        <state relative-caret-position="194">
+          <caret line="82" column="72" lean-forward="false" selection-start-line="82" selection-start-column="24" selection-end-line="82" selection-end-column="72" />
           <folding>
             <marker date="1552010571798" expanded="true" signature="883:3627" ph="..." />
             <marker date="1552010571798" expanded="true" signature="890:1821" ph="..." />
@@ -614,6 +594,17 @@
             <marker date="1552010571798" expanded="true" signature="2824:2949" ph="..." />
             <marker date="1552010571798" expanded="false" signature="2851:2899" ph="..." />
             <marker date="1552010571798" expanded="true" signature="2984:3497" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cron.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1722">
+          <caret line="80" column="38" lean-forward="true" selection-start-line="80" selection-start-column="38" selection-end-line="80" selection-end-column="38" />
+          <folding>
+            <marker date="1552023803826" expanded="true" signature="289:378" ph="select * fro... system_domain" />
+            <marker date="1552023803826" expanded="true" signature="600:656" ph="UPDATE `system_domain`... " />
           </folding>
         </state>
       </provider>

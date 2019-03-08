@@ -3,7 +3,7 @@
 $apiToken = 'e45c3660bf7799902225c08b5df895d6';
 
 try {
-    $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=wx;', 'root', 'xiaomi_183..');
+    $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=wx;', 'root', 'XFkj!@#$8888');
     $mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (\Exception $e) {
     //throw $e;
@@ -81,7 +81,7 @@ function domainCheck($apiToken, $reqUrl)
     if (isset($responseArr['code'])) {
         // 接口正确返回
         if ($responseArr['code'] == '9900') {
-            file_put_contents('ApidomainCheck.log',$reqUrl.'域名正常  '.date('Y-m-d H:i:s').PHP_EOL,FILE_APPEND);
+            //file_put_contents('ApidomainCheck.log',$reqUrl.'域名正常  '.date('Y-m-d H:i:s').PHP_EOL,FILE_APPEND);
             return true;
         } else if ($responseArr['code'] == '9904') {
             file_put_contents('ApidomainCheck.log',$reqUrl.'域名被封了  '.date('Y-m-d H:i:s').PHP_EOL,FILE_APPEND);

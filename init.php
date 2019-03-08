@@ -1,13 +1,5 @@
 <?php
 
-//=====================测试服务器哦===========================//
-//define('SQL_HOST', '127.0.0.1');//数据库地址
-//define("SQL_USER", "wx");//数据库用户名
-//define("SQL_PASSWORD", "root");//数据库密码
-//define("SQL_DATABASE", "xiaomi_183..");//连接的数据库名字
-//define("SQL_PORT", "3306");//数据库端口号,默认为3306
-//================================================//
-
 //=====================本地服务器哦===========================//
 //define('SQL_HOST', '127.0.0.1');//数据库地址
 //define("SQL_USER", "root");//数据库用户名
@@ -26,7 +18,7 @@
 
 // php7
 try {
-    $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=admin_v3;', 'root', 'root');
+    $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=wx;', 'root', 'XFkj!@#$8888');
     $mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (\Exception $e) {
     //throw $e;
