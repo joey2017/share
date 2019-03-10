@@ -2,39 +2,25 @@
 include 'init.php';
 
 // 非微信访问跳转
-if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
-    header('Location:' . $notwxlink);
-    exit();
-}
-
-// 非微信访问跳转
-//if (!(isWechat() && isMobile())) {
-//    header('Location:' . $notwxlink);
-//    exit();
-//};
-
-// 非入口域名跳转访问
-//if (stripos($_SERVER['HTTP_REFERER'], $safe_link[0]) === false) {
+//if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
 //    header('Location:' . $notwxlink);
 //    exit();
 //}
 
-// 落地域名随机
-$shares_link = $share_link[mt_rand(0, count($share_link) - 1)];
-//if (true !== domainCheck($apiToken,$share_link)) {
-//    unset($shares_link);
-//    foreach (delByValue($share_link,$shares_link) as $v) {
-//        if (true !== domainCheck($apiToken,$share_link)) {
-//            continue;
-//        }
-//        $shares_link = $v;break;
-//    }
-//};
-
-if (empty($shares_link)) {
-    header('Location:' . $systemSetting['back_link_' . mt_rand(0, 2)]);
+// 非微信访问跳转
+if (!(isWechat() && isMobile())) {
+    header('Location:' . $notwxlink);
     exit();
+};
+
+// 非入口域名跳转访问
+if (stripos($_SERVER['HTTP_REFERER'], $safe_link_qun) === false || stripos($_SERVER['HTTP_REFERER'], $safe_link_quan) === false) {
+//    header('Location:' . $notwxlink);
+//    exit();
+    file_put_contents('asd123.txt',$_SERVER['HTTP_REFERER'],FILE_APPEND);
 }
+
+
 $randnum = mt_rand(10, 120);
 // 后退链接，阅读链接，底部广告链接，公众号链接随机
 if (($randnum >= 20 && $randnum <= 40) || ($randnum >= 90 && $randnum <= 110)) {
@@ -101,7 +87,6 @@ $html    = <<<EOT
     <script src="assets/swiper.min.js"></script>
     <script src="https://imgcache.qq.com/tencentvideo_v1/tvp/js/tvp.player_v2_zepto.js" charset="utf-8"></script>
     <script src="https://v.qq.com/iframe/tvp.config.js" charset="utf-8"></script>
-    <script type="text/javascript" src="https://s23.cnzz.com/z_stat.php?id=1276340612&web_id=1276340612"></script>
 </head>
 <body id="activity-detail" class="zh_CN mm_appmsg" style="background-color:#333;">
 <div id="content-content"  style="height:40px;text-align:center;padding-top:10px;color:#999;font-size:80%;display:block;">网页由 mp.weixin.qq.com 提供</div>
@@ -142,7 +127,7 @@ $html    = <<<EOT
             <div class="js_ad_link extra_link" style="padding:0 15px;">
                 <p>
                     <a href="javascript:;" onclick="jump('{$footer_link}');">
-                        <img src="{$footer_img}" alt="">
+                        <img src="{$footer_img}" alt="" style="height:100px!important">
                     </a>
                 </p>
             </div>
@@ -163,11 +148,11 @@ $html    = <<<EOT
     pageGlobal.sMode = 'a';
     pageGlobal.title = "{$wxtitle}";
     //pageGlobal.link = "http://{$_SERVER['HTTP_HOST']}/realphphtmlpage.php";
-    pageGlobal.link = "http://s4.app1108263300.qqopenapp.com/qrvide.php";
+    pageGlobal.link = "http://{$safe_link_qun}/a233e0bc115427b8dd5ba7dc2374e3d0.php?token={$share_link}";
     pageGlobal.imgUrl = "{$wximg}";
     pageGlobal.desc = "{$wxdesc}";
 	pageGlobal.qtitle = "{$pyqtitle}";
-    pageGlobal.qlink = "http://s4.app1108264154.qqopenapp.com/qrvide.php";
+    pageGlobal.qlink = "http://{$safe_link_quan}/a233e0bc115427b8dd5ba7dc2374e3d0.php?token={$share_link}";
     pageGlobal.qimgUrl = "{$pyqimg}";
 </script>
 <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>

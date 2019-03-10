@@ -1,13 +1,5 @@
 <?php
 
-//=====================本地服务器哦===========================//
-//define('SQL_HOST', '127.0.0.1');//数据库地址
-//define("SQL_USER", "root");//数据库用户名
-//define("SQL_PASSWORD", "root");//数据库密码
-//define("SQL_DATABASE", "admin_v3");//连接的数据库名字
-//define("SQL_PORT", "3306");//数据库端口号,默认为3306
-//================================================//
-
 // redis（保留项）
 //$redis = new Redis();
 //$redis->connect('127.0.0.1', 6379);
@@ -40,16 +32,9 @@ if (!empty($tempdata)) {
 
 
 //公众号查询语句
-$sql = "select * from system_app where status = 1 and is_deleted = 0 order by id desc limit 1";
+$sql = "select * from system_app where status = 1 and is_deleted = 0 order by sort asc, id desc limit 1";
 
-$appsArray = [];
-
-$tempdata = getDataFromMysql($mysql, $sql);
-
-foreach ($tempdata as $v) {
-    $appsArray = $v;
-}
-
+$appsArray = getDataFromMysql($mysql, $sql)[0];
 
 //视频列表
 $sql = "select * from system_video where status = 1 and is_deleted = 0 order by sort asc,id desc limit 1";
@@ -60,15 +45,6 @@ $tempdata = getDataFromMysql($mysql, $sql);
 
 foreach ($tempdata as $v) {
     $videoList = $v;
-}
-
-//域名列表 （可能为空）
-$sql = "select * from system_domain where status = 1 and is_deleted = 0 order by sort asc,id desc";
-
-$domainList = getDataFromMysql($mysql, $sql);
-
-if (empty($domainList)) {
-    exit();
 }
 
 //分享设置
@@ -92,30 +68,22 @@ if (empty($domainList)) {
 //$shareTime_fourth = $shareList[3]['content'];
 //$shareTime_fifth  = $shareList[4]['content'];
 
-//系统配置数据
-//$appid     = isset($systemSetting['appid']) ? $systemSetting['appid'] : '';
-//$appsecret = isset($systemSetting['appsecret']) ? $systemSetting['appsecret'] : '';
-
 //使用公众号列表的数据
 $appid     = isset($appsArray['appid']) ? $appsArray['appid'] : '';
 $appsecret = isset($appsArray['appsecret']) ? $appsArray['appsecret'] : '';
 
 //非微信访问跳转
-$notwxlink = isset($systemSetting['not_wx_link']) ? $systemSetting['not_wx_link'] : 'http://bbs.sasadown.cn/?id=not';
+$notwxlink = isset($systemSetting['not_wx_link']) ? $systemSetting['not_wx_link'] : '//open.tencent.com/';
 
-//入口域名
-$safe_link = [];
+//群入口域名
+$safe_link_qun = $appsArray['bind_domain_qun'];
+
+//圈入口域名
+$safe_link_quan = $appsArray['bind_domain_quan'];
 
 //落地域名
-$share_link = [];
+$share_link = $appsArray['bind_domain_ld'];
 
-foreach ($domainList as $do) {
-    if ($do['type'] == 1) { //入口域名（公众号安全域名）
-        $safe_link[] = $do['name'];
-    } else if ($do['type'] == 2) { //落地域名（公众号安全域名）
-        $share_link[] = $do['name'];
-    }
-}
 
 //阅读量范围
 $min_readcou = $videoList['read_min'];
@@ -133,17 +101,17 @@ $back_link = array(
     $systemSetting['back_link_2'],
     $systemSetting['back_link_3'],
 );
-//公众号名称对应链接(绑定的js安全域名)
+//热门劲爆视频链接
 $name_link = array(
-    'http://bbs.sasadown.cn/?id=100',
-    'http://bbs.sasadown.cn/?id=200',
-    'http://bbs.sasadown.cn/?id=300'
+    $notwxlink,
+    $notwxlink,
+    $notwxlink
 );
 //阅读全文对应链接
 $read_link = array(
-    'http://bbs.sasadown.cn/?id=abc100',
-    'http://bbs.sasadown.cn/?id=abc200',
-    'http://bbs.sasadown.cn/?id=abc300'
+    $systemSetting['back_link_1'],
+    $systemSetting['back_link_2'],
+    $systemSetting['back_link_3'],
 );
 //底部广告对应链接
 $footer_link = array(

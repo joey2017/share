@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../general/.idea/general.iml" filepath="$PROJECT_DIR$/../general/.idea/general.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../redpack/.idea/redpack.iml" filepath="$PROJECT_DIR$/../redpack/.idea/redpack.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/share.iml" filepath="$PROJECT_DIR$/.idea/share.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../wechat/.idea/wechat.iml" filepath="$PROJECT_DIR$/../wechat/.idea/wechat.iml" />
     </modules>
   </component>
 </project>
