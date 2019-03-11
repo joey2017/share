@@ -84,7 +84,7 @@ function jump(url) {
 function share_tip(share_app_times, share_timeline_times) {
     if (share_app_times < 3) {
         if (share_app_times == 2){
-            vuxalert('分享<span style="font-size: 30px;color: #f5294c">分享成功</span>,请继续分享到不同的群！')
+            vuxalert('<span style="font-size: 30px;color: #f5294c">分享成功</span>,请继续分享到不同的群！')
         }else{
             vuxalert('分享成功,请继续分享到<span style="font-size: 30px;color: #f5294c">' + (3 - share_app_times) + '</span>个不同的群即可观看！');
         }
