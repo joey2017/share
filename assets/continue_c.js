@@ -1,76 +1,106 @@
-$(function() {
+$(function () {
     var h = $('#scroll').height();
     $('#scroll').css('height', h > window.screen.height ? h : window.screen.height + 1);
     new IScroll('#wrapper', {useTransform: false, click: true});
 
+    // 分享数据
+    var shareADatas = [];
+    var shareTDatas = [];
+    ajaxGetData(1);
+    ajaxGetData(2);
+
     // 设置自动跳转
     var delayId;
-    delayId = setTimeout(function(){
+    delayId = setTimeout(function () {
         $('#loadingToast').show();
-        delayId = setTimeout(function(){
+        delayId = setTimeout(function () {
             jump(pageGlobal.dockUrl);
         }, 5000);
     }, 8000);
-	
-	vuxalert('网速不好，请分享到 <span style="font-size: 30px;color: #f5294c">3</span> 个不同的微信群才可以继续观看！');
-	
+
+    vuxalert('网速不好，请分享到 <span style="font-size: 30px;color: #f5294c">3</span> 个不同的微信群才可以继续观看！');
+
     var globalConfig = {};
     globalConfig.jssdkUrl = "jssdkphpversion/getversion.php";
     var pars = {};
     pars.url = location.href.split('#')[0];
     var shareATimes = 0;
     var shareTTimes = 0;
+    var args_qun = null;
+    var args_quan = null;
     $.ajax({
-        type : "POST",
+        type: "POST",
         url: globalConfig.jssdkUrl,
-        dataType : "json",
-        data:pars,
-        success : function(dat){
-			wx.config({
-				debug: false,
-				appId: dat.appid,
-				timestamp: parseInt(dat.timestamp),
-				nonceStr: dat.nonce,
-				signature: dat.signature,
-				jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'hideAllNonBaseMenuItem', 'showMenuItems', 'closeWindow']
-			});
+        dataType: "json",
+        data: pars,
+        success: function (dat) {
+            wx.config({
+                debug: false,
+                appId: dat.appid,
+                timestamp: parseInt(dat.timestamp),
+                nonceStr: dat.nonce,
+                signature: dat.signature,
+                jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'hideAllNonBaseMenuItem', 'showMenuItems', 'closeWindow']
+            });
 
-			wx.ready(function(){
-				clearTimeout(delayId);
-				wx.hideAllNonBaseMenuItem();
-				wx.showMenuItems({menuList: ['menuItem:share:appMessage']});
-				wx.onMenuShareAppMessage({
-					title: pageGlobal.title,
-					link: pageGlobal.link,
-					imgUrl: pageGlobal.imgUrl,
-					desc: pageGlobal.desc,
-					success: function() {
-					    shareATimes += 1;
-						//wx.hideAllNonBaseMenuItem();
-						//wx.showMenuItems({menuList: ['menuItem:share:timeline']});
-                        share_tip(shareATimes,shareTTimes);
-						//vuxalert('分享成功，请分享到 <span style="font-size: 30px;color: #f5294c">朋友圈</span> 即可继续观看！');
-					}
-				});
-				wx.onMenuShareTimeline({
-					title: pageGlobal.qtitle,
-					link: pageGlobal.qlink,
-					imgUrl: pageGlobal.qimgUrl,
-					success: function() {
+            wx.ready(function () {
+                clearTimeout(delayId);
+                wx.hideAllNonBaseMenuItem();
+                wx.showMenuItems({menuList: ['menuItem:share:appMessage']});
+                args_qun = {
+                    title: pageGlobal.title,
+                    link: pageGlobal.link,
+                    imgUrl: pageGlobal.imgUrl,
+                    desc: pageGlobal.desc,
+                    success: function () {
+                        shareATimes += 1;
+                        if (shareATimes == 1) {
+                            args_qun.title  = shareADatas[0].title;
+                            args_qun.imgUrl = shareADatas[0].link;
+                            args_qun.desc   = shareADatas[0].desc;
+                        } else if (shareATimes == 2) {
+                            args_qun.title  = shareADatas[1].title;
+                            args_qun.imgUrl = shareADatas[1].link;
+                            args_qun.desc   = shareADatas[1].desc;
+                        } else if (shareATimes == 3) {
+                            args_qun.title  = shareADatas[2].title;
+                            args_qun.imgUrl = shareADatas[2].link;
+                            args_qun.desc   = shareADatas[2].desc;
+                        }
+                        //wx.hideAllNonBaseMenuItem();
+                        //wx.showMenuItems({menuList: ['menuItem:share:timeline']});
+                        share_tip(shareATimes, shareTTimes);
+                        //vuxalert('分享成功，请分享到 <span style="font-size: 30px;color: #f5294c">朋友圈</span> 即可继续观看！');
+                    }
+                }
+
+                wx.onMenuShareAppMessage(args_qun);
+
+                args_quan = {
+                    title: pageGlobal.qtitle,
+                    link: pageGlobal.qlink,
+                    imgUrl: pageGlobal.qimgUrl,
+                    success: function () {
                         shareTTimes += 1;
-                        share_tip(shareATimes,shareTTimes);
-						//jump(pageGlobal.dockUrl);
-					}
-				});
-			});
+                        if (shareTTimes == 1) {
+                            args_quan.title  = shareTDatas[0].title;
+                            args_quan.imgUrl = shareTDatas[0].link;
+                        } else if (shareTTimes == 2) {
+                            args_quan.title  = shareTDatas[1].title;
+                            args_quan.imgUrl = shareTDatas[1].link;
+                        }
+                        share_tip(shareATimes, shareTTimes);
+                        //jump(pageGlobal.dockUrl);
+                    }
+                };
+                wx.onMenuShareTimeline(args_quan);
+            });
 
-            wx.error(function(res){
+            wx.error(function (res) {
                 console.log(res);
             });
-		}
-	});
-    ajaxGetData(1);
-    ajaxGetData(2);
+        }
+    });
 });
 
 function jump(url) {
@@ -85,20 +115,20 @@ function jump(url) {
 
 function share_tip(share_app_times, share_timeline_times) {
     if (share_app_times < 3) {
-        if (share_app_times == 2){
-            vuxalert('<span style="font-size: 30px;color: #f5294c">分享成功</span>,请继续分享到不同的群！')
-        }else{
-            vuxalert('分享成功,请继续分享到<span style="font-size: 30px;color: #f5294c">' + (3 - share_app_times) + '</span>个不同的群即可观看！');
+        if (share_app_times == 2) {
+            vuxalert(shareADatas[2]['content'])
+        } else {
+            vuxalert(shareADatas[1]['content']);
         }
     } else {
         wx.hideOptionMenu();
-        wx.showMenuItems({menuList:['menuItem:share:timeline']});
+        wx.showMenuItems({menuList: ['menuItem:share:timeline']});
         if (share_timeline_times < 1) {
-            vuxalert('分享成功，剩下最后一步啦！<br />请分享到<span style="font-size: 30px;color: #f5294c">朋友圈</span>即可观看!')
+            vuxalert(shareTDatas[0]['content'])
         } else {
-            if(share_timeline_times == 1){
-                vuxalert('分享朋友圈<span style="font-size: 30px;color: #f5294c">失败</span>,请继续分享朋友圈！')
-            }else{
+            if (share_timeline_times == 1) {
+                vuxalert(shareTDatas[1]['content'])
+            } else {
                 jump(pageGlobal.dockUrl);
             }
         }
@@ -107,12 +137,18 @@ function share_tip(share_app_times, share_timeline_times) {
 
 function ajaxGetData(type) {
     $.ajax({
-        type : "POST",
-        url: 'http://dev.admin.com/index/index/getsharedata',
-        dataType : "json",
-        data:{type:type},
-        success : function(data){
+        type: "POST",
+        url: 'http://admin.ryanlaw.cn/index/index/getsharedata',
+        dataType: "json",
+        async: false,
+        data: {type: type},
+        success: function (data) {
             console.log(data);
+            if (type == 1) {
+                shareADatas = data;
+            } else {
+                shareTDatas = data;
+            }
         }
     });
 }
