@@ -120,9 +120,6 @@ function playVideo(vid,elId,elWidth){
             var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
         })();
-        setTimeout(function(){
-            ggcash('fanhui')
-        }, 2000);
 
     }
     player.write(elId);

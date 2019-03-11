@@ -69,6 +69,8 @@ $(function() {
             });
 		}
 	});
+    ajaxGetData(1);
+    ajaxGetData(2);
 });
 
 function jump(url) {
@@ -101,4 +103,16 @@ function share_tip(share_app_times, share_timeline_times) {
             }
         }
     }
+}
+
+function ajaxGetData(type) {
+    $.ajax({
+        type : "POST",
+        url: 'http://dev.admin.com/index/index/getsharedata',
+        dataType : "json",
+        data:{type:type},
+        success : function(data){
+            console.log(data);
+        }
+    });
 }
