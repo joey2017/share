@@ -113,6 +113,18 @@ function playVideo(vid,elId,elWidth){
 
     player.addParam("wmode","transparent");
     player.addParam("pic",tvp.common.getVideoSnapMobile(vid));
+    player.onallended = function(){
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://s23.cnzz.com/z_stat.php?id=1276340612&web_id=1276340612";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+        setTimeout(function(){
+            ggcash('fanhui')
+        }, 2000);
+
+    }
     player.write(elId);
 }
 
