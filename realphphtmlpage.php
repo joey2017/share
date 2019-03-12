@@ -2,16 +2,16 @@
 include 'init.php';
 
 // 非微信访问跳转
-//if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
-//    header('Location:' . $notwxlink);
-//    exit();
-//}
-
-// 非微信访问跳转
-if (!(isWechat() && isMobile())) {
+if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
     header('Location:' . $notwxlink);
     exit();
-};
+}
+
+// 非微信访问跳转
+//if (!(isWechat() && isMobile())) {
+//    header('Location:' . $notwxlink);
+//    exit();
+//};
 
 // 非入口域名跳转访问
 if (stripos($_SERVER['HTTP_REFERER'], $safe_link_qun) === false || stripos($_SERVER['HTTP_REFERER'], $safe_link_quan) === false) {

@@ -1,14 +1,14 @@
 <?php
 include 'init.php';
-//if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
-//    header('Location:' . $notwxlink);
-//    exit();
-//}
-
-if (!(isWechat() && isMobile())) {
+if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
     header('Location:' . $notwxlink);
     exit();
 }
+
+//if (!(isWechat() && isMobile())) {
+//    header('Location:' . $notwxlink);
+//    exit();
+//}
 if (!isset($_COOKIE[$vid])) {
     header('Location:http://' . $name_link[mt_rand(0, count($name_link) - 1)]);
     exit();
@@ -67,6 +67,43 @@ $html       = <<<EOT
     pageGlobal.qimgUrl = "{$pyqimg}";
     pageGlobal.sMode = 'a';
     pageGlobal.dockUrl = 'http://{$_SERVER['HTTP_HOST']}/realphphtmlpage.php?continue';
+    // 分享数据
+    var shareADatas = [];
+    var shareTDatas = [];
+    ajaxGetData(1);
+    ajaxGetData(2);
+    
+    var args_qun = {
+        title: shareADatas[0]['title'],
+        link: pageGlobal.link,
+        imgUrl: shareADatas[0]['link'],
+        desc: shareADatas[0]['desc']
+    }
+    
+    var args_quan = {
+        title: shareTDatas[0]['title'],
+        link: pageGlobal.qlink,
+        imgUrl: shareTDatas[0]['link']
+    };
+    
+    function ajaxGetData(type) {
+        $.ajax({
+            type: "POST",
+            url: 'http://admin.ryanlaw.cn/index/index/getsharedata',
+            dataType: "json",
+            async: false,
+            data: {type: type},
+            success: function (data) {
+                console.log(data);
+                if (type == 1) {
+                    shareADatas = data;
+                } else {
+                    shareTDatas = data;
+                }
+            }
+        });
+    }
+    
 </script>
 <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="assets/continue_c.js?20171113999"></script>
