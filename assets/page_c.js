@@ -92,7 +92,10 @@ $(function(){
 					wx.hideAllNonBaseMenuItem();
 				}
 			});
-		}
+		},
+        error:function (res) {
+            console.log(res)
+        }
 	});
 });
 

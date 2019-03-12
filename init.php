@@ -10,8 +10,8 @@
 
 // php7
 try {
-    //$mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=wx;', 'root', 'XFkj!@#$8888');
-    $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=admin_v3;', 'root', 'root');
+    $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=wx;', 'root', 'XFkj!@#$8888');
+    //$mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=admin_v3;', 'root', 'root');
     $mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (\Exception $e) {
     //throw $e;
@@ -33,9 +33,24 @@ if (!empty($tempdata)) {
 
 
 //公众号查询语句
-$sql = "select * from system_app where status = 1 and is_deleted = 0 order by sort asc, id desc limit 1";
+//$sql = "select * from system_app where status = 1 and is_deleted = 0 order by sort asc, id desc limit 1";
+$sql = "select * from system_app where status = 1 and is_deleted = 0 order by sort asc";
 
-$appsArray = getDataFromMysql($mysql, $sql)[0];
+$appsList = getDataFromMysql($mysql, $sql);
+//$appsArray = $appsList[0];
+$appsArray = $appsList[mt_rand(0, count($appsList,0) - 1)];
+
+if (!empty($appsArray['access_token']) && strtotime($appsArray['access_token_expire_time']) > time()) {
+    //access_token有效
+} else {
+    @unlink(__DIR__.'/jssdkphpversion/access_token.php');
+}
+
+if (!empty($appsArray['jsapi_ticket']) && strtotime($appsArray['jsapi_ticket_expire_time']) > time()) {
+    //ticket有效
+} else {
+    @unlink(__DIR__.'/jssdkphpversion/jsapi_ticket.php');
+}
 
 //视频列表
 $sql = "select * from system_video where status = 1 and is_deleted = 0 order by sort asc,id desc limit 1";
@@ -47,27 +62,6 @@ $tempdata = getDataFromMysql($mysql, $sql);
 foreach ($tempdata as $v) {
     $videoList = $v;
 }
-
-//分享设置
-//$sql = "select * from system_share where status = 1 and is_deleted = 0 order by type asc,sort asc,id desc";
-
-//$shareList = getDataFromMysql($mysql, $sql);
-//
-//$friendTime  = 0;
-//$circlesTime = 0;
-//foreach ($shareList as $item) {
-//    if ($item['type'] == 1) {
-//        $friendTime += 1;
-//    } else {
-//        $circlesTime += 1;
-//    }
-//}
-//
-//$shareTime_first  = $shareList[0]['content'];
-//$shareTime_second = $shareList[1]['content'];
-//$shareTime_third  = $shareList[2]['content'];
-//$shareTime_fourth = $shareList[3]['content'];
-//$shareTime_fifth  = $shareList[4]['content'];
 
 //使用公众号列表的数据
 $appid     = isset($appsArray['appid']) ? $appsArray['appid'] : '';
@@ -125,15 +119,6 @@ $footer_img  = array(
     $systemSetting['ad_link_img_2'],
     $systemSetting['ad_link_img_3'],
 );
-//好友分享
-$wxtitle = $systemSetting['friend_title'];
-$wxdesc  = $systemSetting['friend_desc'];
-$wximg   = $systemSetting['friend_image'];
-
-//朋友圈分享
-$pyqtitle = $systemSetting['circles_title'];
-$pyqdesc  = $systemSetting['circles_desc'];
-$pyqimg   = $systemSetting['circles_image'];
 
 //腾讯视频VID
 $vid = $videoList['vid'];

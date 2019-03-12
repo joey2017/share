@@ -1,6 +1,6 @@
 <?php
 include '../init.php';
-$jssdk       = new JSSDK($appid, $appsecret);
+$jssdk       = new JSSDK($appid, $appsecret, $mysql, $appsArray);
 $signPackage = $jssdk->getSignPackage($_POST['url']);
 //$signPackage = $jssdk->getSignPackage($jssdk->getUrl());
 header('content-type:application/json;charset=utf8');
@@ -15,11 +15,15 @@ class JSSDK
 {
     private $appId;
     private $appSecret;
+    private $mysql;
+    private $info;
 
-    public function __construct($appId, $appSecret)
+    public function __construct($appId, $appSecret, $mysql, $appsArray)
     {
         $this->appId     = $appId;
         $this->appSecret = $appSecret;
+        $this->mysql     = $mysql;
+        $this->info      = $appsArray;
     }
 
     public function getSignPackage($url)
@@ -42,9 +46,10 @@ class JSSDK
         return $signPackage;
     }
 
-    public function getUrl(){
+    public function getUrl()
+    {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-        $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $url      = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         return $url;
     }
 
@@ -60,24 +65,29 @@ class JSSDK
 
     private function getJsApiTicket()
     {
-        $file = 'jsapi_ticket.php';
-        if (!file_exists($file)) {
-            $this->set_php_file($file, '');
-        }
-        $data = json_decode($this->get_php_file($file));
-        if (empty($data) || $data->expire_time < time()) {
+        if (empty($this->info['jsapi_ticket']) || strtotime($this->info['jsapi_ticket_expire_time']) < time()) {
             $accessToken = $this->getAccessToken();
             $url         = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
             $res         = json_decode($this->httpGet($url));
             $ticket      = $res->ticket;
             if ($ticket) {
-                $data               = new stdClass();
-                $data->expire_time  = time() + 5000;
-                $data->jsapi_ticket = $ticket;
-                $this->set_php_file($file, json_encode($data));
+                $updateSql = 'update system_app set jsapi_ticket=:jsapi_ticket,jsapi_ticket_expire_time=:jsapi_ticket_expire_time where appid=:appid';
+                $data      = array(':jsapi_ticket' => $ticket, ':jsapi_ticket_expire_time' => date('Y-m-d H:i:s', time() + 5000), ':appid' => $this->appId);
+                $stmt      = $this->mysql->prepare($updateSql);
+                try {
+                    $stmt->execute($data);
+                } catch (\Exception $e) {
+                    file_put_contents(__DIR__ . '/error.log', $this->appId . '  jsapi_ticket状态更新失败 ' . '  错误信息：'.json_encode($e->getTraceAsString()) . date('Y-m-d H:i:s') . PHP_EOL, FILE_APPEND);
+                }
+
+                if ($stmt->rowCount() > 0) {
+                    file_put_contents(__DIR__ . '/update.log', $this->appId . '  jsapi_ticket状态更新成功 ' . ' ' . date('Y-m-d H:i:s') . PHP_EOL, FILE_APPEND);
+                } else {
+                    file_put_contents(__DIR__ . '/update.log', $this->appId . '  jsapi_ticket状态更新失败 ' . ' ' . date('Y-m-d H:i:s') . PHP_EOL, FILE_APPEND);
+                }
             }
         } else {
-            $ticket = $data->jsapi_ticket;
+            $ticket = $this->info['jsapi_ticket'];
         }
 
         return $ticket;
@@ -85,46 +95,30 @@ class JSSDK
 
     private function getAccessToken()
     {
-        $file = 'access_token.php';
-        if (!file_exists($file)) {
-            $this->set_php_file($file, '');
-        }
-        $data = json_decode($this->get_php_file($file));
-        if (empty($data) || $data->expire_time < time()) {
+        if (empty($this->info['access_token']) || strtotime($this->info['access_token_expire_time']) < time()) {
             $url          = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$this->appId&secret=$this->appSecret";
             $res          = json_decode($this->httpGet($url));
             $access_token = $res->access_token;
             if ($access_token) {
-                $data               = new stdClass();
-                $data->expire_time  = time() + 5000;
-                $data->access_token = $access_token;
-                $this->set_php_file($file, json_encode($data));
+                $updateSql = 'update system_app set access_token=:access_token,access_token_expire_time=:access_token_expire_time where appid=:appid';
+                $data      = array(':access_token' => $access_token, ':access_token_expire_time' => date('Y-m-d H:i:s', time() + 5000), ':appid' => $this->appId);
+                $stmt      = $this->mysql->prepare($updateSql);
+                try {
+                    $stmt->execute($data);
+                } catch (\Exception $e) {
+                    file_put_contents(__DIR__ . '/error.log', $this->appId . '  access_token状态更新失败 ' . '  错误信息：'.json_encode($e->getTraceAsString()) . date('Y-m-d H:i:s') . PHP_EOL, FILE_APPEND);
+                }
+                if ($stmt->rowCount() > 0) {
+                    file_put_contents(__DIR__ . '/update.log', $this->appId . '  access_token状态更新成功 ' . ' ' . date('Y-m-d H:i:s') . PHP_EOL, FILE_APPEND);
+                } else {
+                    file_put_contents(__DIR__ . '/update.log', $this->appId . '  access_token状态更新失败 ' . ' ' . date('Y-m-d H:i:s') . PHP_EOL, FILE_APPEND);
+                }
             }
         } else {
-            $access_token = $data->access_token;
+            $access_token = $this->info['access_token'];
         }
+
         return $access_token;
-    }
-
-    private function get_php_file($filename)
-    {
-        return trim(substr(file_get_contents($filename), 15));
-    }
-
-    private function set_php_file($filename, $content)
-    {
-        if ($fp = fopen($filename, 'w+')) {
-            $startTime = microtime();
-            do {
-                $canWrite = flock($fp, LOCK_EX);
-                if (!$canWrite) usleep(round(rand(0, 100) * 1000));
-            } while ((!$canWrite) && ((microtime() - $startTime) < 1000));
-
-            if ($canWrite) {
-                fwrite($fp, "<?php exit();?>" . $content);
-            }
-            fclose($fp);
-        }
     }
 
     private function httpGet($url)
