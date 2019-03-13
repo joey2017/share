@@ -6,5 +6,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="redpack" />
     <orderEntry type="module" module-name="general" />
+    <orderEntry type="module" module-name="bbbBB" />
   </component>
 </module>
