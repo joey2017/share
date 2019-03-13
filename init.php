@@ -13,8 +13,9 @@ try {
     $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=wx;', 'root', 'XFkj!@#$8888');
     //$mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=admin_v3;', 'root', 'root');
     $mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (\Exception $e) {
-    //throw $e;
+} catch (PDOException $e) {
+    file_put_contents(__DIR__.'/mysql_error.log',$e->getMessage().PHP_EOL,FILE_APPEND);
+    die('error');
 }
 
 $sql = "SELECT * FROM system_config";
@@ -31,26 +32,16 @@ if (!empty($tempdata)) {
     exit();
 }
 
+$hostname = explode('.',$_SERVER['HTTP_HOST'],2);
+$domain = $hostname[1];
 
 //公众号查询语句
 //$sql = "select * from system_app where status = 1 and is_deleted = 0 order by sort asc, id desc limit 1";
-$sql = "select * from system_app where status = 1 and is_deleted = 0 order by sort asc";
+$sql = "select * from system_app where status = 1 and is_deleted = 0 and bind_domain_ld = '".$domain."' order by sort asc";
 
 $appsList = getDataFromMysql($mysql, $sql);
 //$appsArray = $appsList[0];
 $appsArray = $appsList[mt_rand(0, count($appsList,0) - 1)];
-
-if (!empty($appsArray['access_token']) && strtotime($appsArray['access_token_expire_time']) > time()) {
-    //access_token有效
-} else {
-    @unlink(__DIR__.'/jssdkphpversion/access_token.php');
-}
-
-if (!empty($appsArray['jsapi_ticket']) && strtotime($appsArray['jsapi_ticket_expire_time']) > time()) {
-    //ticket有效
-} else {
-    @unlink(__DIR__.'/jssdkphpversion/jsapi_ticket.php');
-}
 
 //视频列表
 $sql = "select * from system_video where status = 1 and is_deleted = 0 order by sort asc,id desc limit 1";
@@ -78,7 +69,6 @@ $safe_link_quan = $appsArray['bind_domain_quan'];
 
 //落地域名
 $share_link = $appsArray['bind_domain_ld'];
-
 
 //阅读量范围
 $min_readcou = $videoList['read_min'];
@@ -138,7 +128,7 @@ EOT;
 /**
  * @param $mysql  mysql资源链接
  * @param $sql    sql语句
- * return mix
+ * @return mix
  */
 function getDataFromMysql($mysql, $sql)
 {
@@ -165,7 +155,7 @@ function getDataFromMysql($mysql, $sql)
 /** 删除数组中指定的值
  * @param $arr      目标一维数组
  * @param $value    需要删除的数组值
- * return array     删除特定值后的数组
+ * @return array     删除特定值后的数组
  */
 function delByValue($arr, $value)
 {
