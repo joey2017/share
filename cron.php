@@ -5,8 +5,8 @@ $apiToken = 'e45c3660bf7799902225c08b5df895d6';
 try {
     $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=wx;', 'root', 'XFkj!@#$8888');
     $mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (\Exception $e) {
-    //throw $e;
+} catch (PDOException $e) {
+    die('error');
 }
 
 //域名列表 （可能为空）
@@ -30,6 +30,9 @@ foreach ($domainList as $item) {
         $sql  = "UPDATE `system_app` SET `status`=:status WHERE `bind_domain_ld`=:bind_domain_ld";
         $data = array(':status' => '0', ':bind_domain_ld' => $item['name']);
         $result = updateMysql($mysql, $sql, $item, $data, '公众号');
+
+        $sql = 'insert into `system_disabled_domain` (`domain`,`create_at`) values ("'.$item['name'].'","'.date('Y-m-d H:i:s').'")';
+        $mysql->exec($sql);
     }
 }
 
