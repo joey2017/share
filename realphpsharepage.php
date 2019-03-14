@@ -14,7 +14,9 @@ if (!isset($_COOKIE[$vid])) {
     exit();
 }
 
-$html       = <<<EOT
+$dockUrlArgs  = Urlencry::encrypt_url('share=true&t=' . time());
+
+$html = <<<EOT
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,14 +61,14 @@ $html       = <<<EOT
     var pageGlobal = {};
     pageGlobal.vid = '{$vid}';
     // pageGlobal.title = "{$wxtitle}";
-    pageGlobal.link = "http://{$safe_link_qun}/a233e0bc115427b8dd5ba7dc2374e3d0.php?token={$share_link}";
+    pageGlobal.link = "http://{$safe_link_qun}/{$shareUrlArgs}";
     // pageGlobal.imgUrl = "{$wximg}";
     // pageGlobal.desc = "{$wxdesc}";
     // pageGlobal.qtitle = "{$pyqtitle}";
-    pageGlobal.qlink = "http://{$safe_link_quan}/a233e0bc115427b8dd5ba7dc2374e3d0.php?token={$share_link}";
+    pageGlobal.qlink = "http://{$safe_link_quan}/{$shareUrlArgs}";
     // pageGlobal.qimgUrl = "{$pyqimg}";
     // pageGlobal.sMode = 'a';
-    pageGlobal.dockUrl = 'http://{$_SERVER['HTTP_HOST']}/realphphtmlpage.php?continue';
+    pageGlobal.dockUrl = 'http://{$_SERVER['HTTP_HOST']}/realphphtmlpage.php?continue#{$shareUrlArgs}';
     // 分享数据
     var shareADatas = [];
     var shareTDatas = [];
@@ -94,7 +96,6 @@ $html       = <<<EOT
             async: false,
             data: {type: type},
             success: function (data) {
-                console.log(data);
                 if (type == 1) {
                     shareADatas = data;
                 } else {

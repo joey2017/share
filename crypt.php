@@ -8,9 +8,9 @@ class Urlencry
 {
     public static $encrypt_key = null;  //加密的密钥
 
-    public function __construct($key)
+    public static function setKey($key)
     {
-        $this->encrypt_key = $key;
+        self::$encrypt_key = $key;
     }
 
     //密钥处理
@@ -84,13 +84,4 @@ class Urlencry
         return $vars;
     }
 }
-
-//=======调用示例========//
-//echo Urlencry::encrypt_url('?a=c&b=fadasf&c=12345555');
-
-//echo '<br>';
-
-//echo Urlencry::decrypt_url('VT4AMg07DGtcdlAxAW5WYQ1tXTYMPFt6BDICdAo0Vm9VMAFgXWUNPQgxBDIIbwNn');
-
-//========调用示例=======//
 

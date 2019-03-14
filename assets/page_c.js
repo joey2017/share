@@ -86,7 +86,7 @@ $(function(){
 
 			wx.ready(function(){
 				if(pageGlobal.playStatus == 'continue') {
-					wx.onMenuShareTimeline(shareData({}));
+					wx.onMenuShareAppMessage(shareData({}));
 					wx.onMenuShareTimeline(shareData({}));
 				} else {
 					wx.hideAllNonBaseMenuItem();
