@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:/裂变/系统程序/bbbBB/.idea/bbbBB.iml" filepath="D:/裂变/系统程序/bbbBB/.idea/bbbBB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../bbb/.idea/bbb.iml" filepath="$PROJECT_DIR$/../bbb/.idea/bbb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../bbbBB/.idea/bbbBB.iml" filepath="$PROJECT_DIR$/../bbbBB/.idea/bbbBB.iml" />
       <module fileurl="file://$PROJECT_DIR$/../general/.idea/general.iml" filepath="$PROJECT_DIR$/../general/.idea/general.iml" />
       <module fileurl="file://$PROJECT_DIR$/../redpack/.idea/redpack.iml" filepath="$PROJECT_DIR$/../redpack/.idea/redpack.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../shang-hai-2/.idea/shang-hai-2.com.iml" filepath="$PROJECT_DIR$/../shang-hai-2/.idea/shang-hai-2.com.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/share.iml" filepath="$PROJECT_DIR$/.idea/share.iml" />
     </modules>
   </component>
