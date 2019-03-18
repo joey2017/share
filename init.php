@@ -27,7 +27,11 @@ if (!empty($tempdata)) {
 }
 
 if (stripos($_SERVER['REQUEST_URI'], 'getversion.php') === false) {
-    $paramStr           = explode('/', $_SERVER['REQUEST_URI'], 3)[2];
+    $tmpdata = $_SERVER['REQUEST_URI'];
+    if (stripos($_SERVER['REQUEST_URI'], 'continue') === false) {
+        $tmpdata            = explode('?', $_SERVER['REQUEST_URI'],2)[0];
+    }
+    $paramStr           = explode('/', $tmpdata, 3)[2];
     $encry              = new Urlencry($systemSetting['secret_key']);
     $shareUrlArgsDecode = $encry->authcode($paramStr, 'DECODE', 0);
     if (stripos($shareUrlArgsDecode, 'token=951753456') === false) {
@@ -36,6 +40,8 @@ if (stripos($_SERVER['REQUEST_URI'], 'getversion.php') === false) {
     $shareUrlArgs = $encry->authcode('token=951753456', '', 0);
 
 }
+
+
 
 $hostname = explode('.', $_SERVER['HTTP_HOST'], 2);
 $domain   = $hostname[1];
