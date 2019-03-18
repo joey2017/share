@@ -1,0 +1,11 @@
+arr_wx = [
+"REG7914",
+"DQC8851",
+"ZDT2366",
+"kmc7767",
+"nmc8825"
+];
+var wx_index = Math.floor((Math.random()*arr_wx.length));
+var stxlwx = arr_wx[wx_index];
+var wx_img = "<img style='width: 250px;'" +" "+ "src='" + "index_files/images/" + stxlwx +".jpg'" +" " + "/>";
+
