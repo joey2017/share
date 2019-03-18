@@ -55,7 +55,9 @@ $(function(){
     });
 
     var globalConfig = {};
-    globalConfig.jssdkUrl = "jssdkphpversion/getversion.php";
+    globalConfig.jssdkUrl = "/jssdkphpversion/getversion.php";
+
+    //getDir()
     var pars = {};
 	pars.url = location.href.split('#')[0];
 	$.ajax({

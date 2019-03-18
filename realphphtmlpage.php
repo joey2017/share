@@ -6,7 +6,6 @@ if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
     header('Location:' . $notwxlink);
     exit();
 }
-
 // 非微信访问跳转
 //if (!(isWechat() && isMobile())) {
 //    header('Location:' . $notwxlink);
@@ -39,7 +38,7 @@ if (($randnum >= 20 && $randnum <= 40) || ($randnum >= 90 && $randnum <= 110)) {
 
 // 访问数量统计
 $curr     = isset($_SERVER["REMOTE_ADDR"]) && !empty($_SERVER["REMOTE_ADDR"]) ? ip2long($_SERVER["REMOTE_ADDR"]) : '0000000000';
-$filename = 'jssdkphpversion/readcou.php';
+$filename = __DIR__.'/jssdkphpversion/readcou.php';
 $data     = trim(substr(file_get_contents($filename), 15));
 if (!empty($data)) {
     $data = json_decode($data, true);
@@ -76,15 +75,15 @@ $html    = <<<EOT
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
     <title>{$videoTitle}</title>
-	<link rel="stylesheet" type="text/css" href="assets/weui.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/main.css?ver=9999">
-    <link rel="stylesheet" type="text/css" href="assets/more.css">
-    <link rel="stylesheet" type="text/css" href="assets/swiper.min.css">
-    <script src="assets/jquery.min.js?ver=999"></script>
-    <script src="assets/jquery.cookie.js"></script>
-    <script src="assets/zepto.min.js"></script>
-    <script src="assets/iscroll-lite.min.js"></script>
-    <script src="assets/swiper.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/assets/weui.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/main.css?ver=9999">
+    <link rel="stylesheet" type="text/css" href="/assets/more.css">
+    <link rel="stylesheet" type="text/css" href="/assets/swiper.min.css">
+    <script src="/assets/jquery.min.js?ver=999"></script>
+    <script src="/assets/jquery.cookie.js"></script>
+    <script src="/assets/zepto.min.js"></script>
+    <script src="/assets/iscroll-lite.min.js"></script>
+    <script src="/assets/swiper.min.js"></script>
     <script src="https://imgcache.qq.com/tencentvideo_v1/tvp/js/tvp.player_v2_zepto.js" charset="utf-8"></script>
     <script src="https://v.qq.com/iframe/tvp.config.js" charset="utf-8"></script>
 </head>
@@ -105,7 +104,7 @@ $html    = <<<EOT
                         <div class="rich_media_content" id="js_content" style="height:200px;">
                         </div>
                         <p style="text-align:center">
-                            <img src="assets/e645b06bly1fj7qiy0djrg20hs0243yg.gif">
+                            <img src="/assets/e645b06bly1fj7qiy0djrg20hs0243yg.gif">
                         </p>
                         <div class="rich_media_tool" id="js_toobar" style="padding-top:10px;">
                             <a class="media_tool_meta meta_primary" style="color:#607fa6;"  id="js_view_source" href="{$read_link}">阅读原文</a>
@@ -114,7 +113,7 @@ $html    = <<<EOT
                                 <i class="icon_praise_gray"></i>
                                 <span class="praise_num" id="likeNum">{$stars}</span>
                             </div>
-                            <a id="js_report_article" class="media_tool_meta tips_global meta_extra" href="javascript:;" onclick="jump('tousu/index.htm');">投诉</a>
+                            <a id="js_report_article" class="media_tool_meta tips_global meta_extra" href="javascript:;" onclick="jump('/tousu/index.htm');">投诉</a>
                         </div>
                     </div>
                 </div>
@@ -155,7 +154,7 @@ $html    = <<<EOT
     pageGlobal.qimgUrl = "{$pyqimg}";
 </script>
 <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script src="assets/page_c.js?20171113999"></script>
+<script src="/assets/page_c.js?20171113999"></script>
 </html>
 EOT;
 ?>
@@ -164,8 +163,8 @@ EOT;
 <head>
     <meta charset="utf-8">
     <title>正在加载 . . . 请稍等 . . .</title>
-    <script src="assets/jquery.min.js"></script>
-    <script src="assets/base64.min.js"></script>
+    <script src="/assets/jquery.min.js"></script>
+    <script src="/assets/base64.min.js"></script>
 </head>
 <body>
 <script>

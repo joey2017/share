@@ -1,5 +1,5 @@
 <?php
-include '../init.php';
+include __DIR__.'/../init.php';
 $jssdk       = new JSSDK($appid, $appsecret, $mysql, $appsArray);
 $signPackage = $jssdk->getSignPackage($_POST['url']);
 //$signPackage = $jssdk->getSignPackage($jssdk->getUrl());

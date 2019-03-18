@@ -26,16 +26,16 @@ if (!empty($tempdata)) {
     exit();
 }
 
-$paramStr = explode('/',$_SERVER['REQUEST_URI'],3)[2];
+if (stripos($_SERVER['REQUEST_URI'], 'getversion.php') === false) {
+    $paramStr           = explode('/', $_SERVER['REQUEST_URI'], 3)[2];
+    $encry              = new Urlencry($systemSetting['secret_key']);
+    $shareUrlArgsDecode = $encry->authcode($paramStr, 'DECODE', 0);
+    if (stripos($shareUrlArgsDecode, 'token=951753456') === false) {
+        exit('sorry,页面找不到!');
+    }
+    $shareUrlArgs = $encry->authcode('token=951753456', '', 0);
 
-$encry              = new Urlencry($systemSetting['secret_key']);
-$shareUrlArgsDecode = $encry->authcode($paramStr, 'DECODE', 0);
-
-if (stripos($shareUrlArgsDecode, 'token=951753456') === false) {
-    exit('sorry,页面找不到!');
 }
-
-$shareUrlArgs = $encry->authcode('token=951753456', '', 0);
 
 $hostname = explode('.', $_SERVER['HTTP_HOST'], 2);
 $domain   = $hostname[1];
