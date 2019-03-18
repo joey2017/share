@@ -15,7 +15,7 @@ $(function () {
     vuxalert('网速不好，请分享到 <span style="font-size: 30px;color: #f5294c">3</span> 个不同的微信群才可以继续观看！');
 
     var globalConfig = {};
-    globalConfig.jssdkUrl = "jssdkphpversion/getversion.php";
+    globalConfig.jssdkUrl = "/jssdkphpversion/getversion.php";
     var pars = {};
     pars.url = location.href.split('#')[0];
     var shareATimes = 0;
