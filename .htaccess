@@ -1,5 +1,5 @@
 rewrite "^(.*)/get\/([a-zA-Z0-9\_]{10,})" $1/realphphtmlpage.php?$2;
 rewrite "^(.*)/continue\/([a-zA-Z0-9\_]{10,})" $1/realphphtmlpage.php?continue&$2;
 rewrite "^(.*)/share\/([a-zA-Z0-9\_]{10,})" $1/realphpsharepage.php?$2;
-#rewrite "^(.*)/get\.html\?continue&([a-zA-Z0-9_]{10,})$" $1/realphphtmlpage.php?continue&$2;
-#rewrite "^(.*)/share\.html\?([a-zA-Z0-9_]{10,})$" $1/realphpsharepage.php?$2 last;
+#rewrite "^(.*)/get\.html\?continue&([a-zA-Z0-9_]{10,})" $1/realphphtmlpage.php?continue&$2;
+#rewrite "^(.*)/share\.html\?([a-zA-Z0-9_]{10,})" $1/realphpsharepage.php?$2 last;
