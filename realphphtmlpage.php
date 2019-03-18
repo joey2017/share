@@ -144,7 +144,7 @@ $html    = <<<EOT
     pageGlobal.delayTime = parseInt('{$video_play_seconds}');
     pageGlobal.backUrl = '{$back_link}';
     // 跳转域名
-    pageGlobal.flyUrl = 'http://{$_SERVER['HTTP_HOST']}/realphpsharepage.php?{$shareUrlArgs}';
+    pageGlobal.flyUrl = 'http://{$_SERVER['HTTP_HOST']}/share/{$shareUrlArgs}';
     // pageGlobal.sMode = 'a';
     pageGlobal.title = "{$videoTitle}";
     pageGlobal.link = "http://{$safe_link_qun}/{$shareUrlArgs}";

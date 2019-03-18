@@ -1,5 +1,8 @@
 <?php
 
+include __DIR__ . '/crypt.php';
+include __DIR__ . '/crypt_b.php';
+
 // redis（保留项）
 //$redis = new Redis();
 //$redis->connect('127.0.0.1', 6379);
@@ -7,14 +10,13 @@
 ////查看服务是否运行
 //echo "Server is running: " . $redis->set('aaa','{"name":"liming"}');
 //print_r(json_decode($redis->get('aaa'),true));
-
 // php7
 try {
-    //$mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=wx;', 'root', 'XFkj!@#$8888');
-    $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=admin_v3;', 'root', 'root');
+    $mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=wx;', 'root', 'XFkj!@#$8888');
+    //$mysql = new PDO('mysql:host=127.0.0.1;port=3306;dbname=admin_v3;', 'root', 'root');
     $mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    file_put_contents(__DIR__.'/mysql_error.log',$e->getMessage().PHP_EOL,FILE_APPEND);
+    file_put_contents(__DIR__ . '/mysql_error.log', $e->getMessage() . PHP_EOL, FILE_APPEND);
     die('error');
 }
 
@@ -32,16 +34,27 @@ if (!empty($tempdata)) {
     exit();
 }
 
-$hostname = explode('.',$_SERVER['HTTP_HOST'],2);
-$domain = $hostname[1];
+$paramStr = explode('/',$_SERVER['REQUEST_URI'],3)[2];
+
+$encry              = new Urlencry($systemSetting['secret_key']);
+$shareUrlArgsDecode = $encry->authcode($paramStr, 'DECODE', 0);
+
+if (stripos($shareUrlArgsDecode, 'token=951753456') === false) {
+    exit('sorry,页面找不到!');
+}
+
+$shareUrlArgs = $encry->authcode('token=951753456', '', 0);
+
+$hostname = explode('.', $_SERVER['HTTP_HOST'], 2);
+$domain   = $hostname[1];
 
 //公众号查询语句
 //$sql = "select * from system_app where status = 1 and is_deleted = 0 order by sort asc, id desc limit 1";
-$sql = "select * from system_app where status = 1 and is_deleted = 0 and bind_domain_ld = '".$domain."' order by sort asc";
+$sql = "select * from system_app where status = 1 and is_deleted = 0 and bind_domain_ld = '" . $domain . "' order by sort asc";
 
 $appsList = getDataFromMysql($mysql, $sql);
 //$appsArray = $appsList[0];
-$appsArray = $appsList[mt_rand(0, count($appsList,0) - 1)];
+$appsArray = $appsList[mt_rand(0, count($appsList, 0) - 1)];
 
 //视频列表
 $sql = "select * from system_video where status = 1 and is_deleted = 0 order by sort asc,id desc limit 1";
@@ -126,11 +139,6 @@ $statistics = <<<EOT
 <script type="text/javascript" src="https://s23.cnzz.com/z_stat.php?id=1276340612&web_id=1276340612"></script>
 EOT;
 
-include 'crypt.php';
-
-Urlencry::setKey('8888.xunfeng.com.cn');
-
-$shareUrlArgs = Urlencry::encrypt_url('share=true&t=' . time());
 //==========================================================================================================//
 /**
  * @param $mysql  mysql资源链接

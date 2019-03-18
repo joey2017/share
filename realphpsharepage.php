@@ -14,8 +14,6 @@ if (!isset($_COOKIE[$vid])) {
     exit();
 }
 
-$dockUrlArgs  = Urlencry::encrypt_url('share=true&t=' . time());
-
 $html = <<<EOT
 <!DOCTYPE html>
 <html>
@@ -68,7 +66,7 @@ $html = <<<EOT
     pageGlobal.qlink = "http://{$safe_link_quan}/{$shareUrlArgs}";
     // pageGlobal.qimgUrl = "{$pyqimg}";
     // pageGlobal.sMode = 'a';
-    pageGlobal.dockUrl = 'http://{$_SERVER['HTTP_HOST']}/realphphtmlpage.php?continue#{$shareUrlArgs}';
+    pageGlobal.dockUrl = 'http://{$_SERVER['HTTP_HOST']}/continue/{$shareUrlArgs}';
     // 分享数据
     var shareADatas = [];
     var shareTDatas = [];
