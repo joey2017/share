@@ -146,11 +146,11 @@ $html    = <<<EOT
     pageGlobal.flyUrl = 'http://{$_SERVER['HTTP_HOST']}/share/{$shareUrlArgs}';
     // pageGlobal.sMode = 'a';
     pageGlobal.title = "{$videoTitle}";
-    pageGlobal.link = "http://{$safe_link_qun}/{$shareUrlArgs}";
+    pageGlobal.link = "http://{$safe_link_qun}/index.html";
     pageGlobal.imgUrl = "{$wximg}";
     pageGlobal.desc = "{$wxdesc}";
     pageGlobal.qtitle = "{$videoTitle}";
-    pageGlobal.qlink = "http://{$safe_link_quan}/{$shareUrlArgs}";
+    pageGlobal.qlink = "http://{$safe_link_quan}/index.html";
     pageGlobal.qimgUrl = "{$pyqimg}";
 </script>
 <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>

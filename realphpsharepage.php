@@ -10,8 +10,8 @@ if (stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
 //    exit();
 //}
 if (!isset($_COOKIE[$vid])) {
-    header('Location:' . $name_link[mt_rand(0, count($name_link) - 1)]);
-    exit();
+    //header('Location:' . $name_link[mt_rand(0, count($name_link) - 1)]);
+    //exit();
 }
 
 $html = <<<EOT
@@ -59,11 +59,11 @@ $html = <<<EOT
     var pageGlobal = {};
     pageGlobal.vid = '{$vid}';
     // pageGlobal.title = "{$wxtitle}";
-    pageGlobal.link = "http://{$safe_link_qun}/{$shareUrlArgs}";
+    pageGlobal.link = "http://{$safe_link_qun}/index.html";
     // pageGlobal.imgUrl = "{$wximg}";
     // pageGlobal.desc = "{$wxdesc}";
     // pageGlobal.qtitle = "{$pyqtitle}";
-    pageGlobal.qlink = "http://{$safe_link_quan}/{$shareUrlArgs}";
+    pageGlobal.qlink = "http://{$safe_link_quan}/index.html";
     // pageGlobal.qimgUrl = "{$pyqimg}";
     // pageGlobal.sMode = 'a';
     pageGlobal.dockUrl = 'http://{$_SERVER['HTTP_HOST']}/continue/{$shareUrlArgs}';
@@ -75,15 +75,15 @@ $html = <<<EOT
     
     var args_qun = {
         title: shareADatas[0]['title'],
-        link: pageGlobal.link,
-        imgUrl: shareADatas[0]['link'],
+        link: shareADatas[0]['link'] ? shareADatas[0]['link'] : pageGlobal.link,
+        imgUrl: location.hostname + shareADatas[0]['link'],
         desc: shareADatas[0]['desc']
     }
     
     var args_quan = {
         title: shareTDatas[0]['title'],
-        link: pageGlobal.qlink,
-        imgUrl: shareTDatas[0]['link']
+        link: shareTDatas[0]['link'] ? shareTDatas[0]['link'] : pageGlobal.qlink,
+        imgUrl: location.hostname + shareTDatas[0]['link']
     };
     
     function ajaxGetData(type) {
